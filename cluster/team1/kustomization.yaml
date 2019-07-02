@@ -1,0 +1,8 @@
+namespace: team1
+resources:
+  - namespace.yaml
+  - rbac.yaml
+bases:
+  - ../../base/flux/
+patchesStrategicMerge:
+  - flux-patch.yaml
