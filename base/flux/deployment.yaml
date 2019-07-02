@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flux
+  template:
+    metadata:
+      annotations:
+        prometheus.io.scrape: "true"
+      labels:
+        app: flux
+    spec:
+      serviceAccountName: flux
+      volumes:
+        - name: kubedir
+          configMap:
+            name: flux-kube-config
+        - name: git-key
+          secret:
+            secretName: flux-git-deploy
+            defaultMode: 0400
+        - name: git-keygen
+          emptyDir:
+            medium: Memory
+      containers:
+        - name: flux
+          image: "weaveworks/flux:1.13.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3030
+              protocol: TCP
+          volumeMounts:
+            - name: kubedir
+              mountPath: /root/.kubectl
+            - name: git-key
+              mountPath: /etc/fluxd/ssh
+              readOnly: true
+            - name: git-keygen
+              mountPath: /var/fluxd/keygen
+          env:
+            - name: KUBECONFIG
+              value: /root/.kubectl/config
+          args:
+            - --memcached-service=
+            - --git-poll-interval=5m
+            - --sync-interval=5m
+            - --ssh-keygen-dir=/var/fluxd/keygen
+            - --git-url=git@github.com:weaveworks/flux-get-started
+            - --git-branch=master
+            - --git-path=
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi

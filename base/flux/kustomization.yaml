@@ -1,0 +1,11 @@
+resources:
+  - account.yaml
+  - role.yaml
+  - config.yaml
+  - deployment.yaml
+  - memcached.yaml
+images:
+  - name: weaveworks/flux
+    newTag: 1.13.1
+  - name: memcached
+    newTag: 1.5.15

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux-memcached
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: flux-memcached
+  template:
+    metadata:
+      annotations:
+        prometheus.io.scrape: "false"
+      labels:
+        app: flux-memcached
+    spec:
+      containers:
+        - name: memcached
+          image: memcached:1.5.15
+          imagePullPolicy: IfNotPresent
+          args:
+            - -m 512
+            - -p 11211
+            - -I 5m
+          ports:
+            - name: memcached
+              containerPort: 11211
+          resources:
+            requests:
+              memory: 120Mi
+              cpu: 50m
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsGroup: 11211
+            runAsUser: 11211
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memcached
+spec:
+  ports:
+    - port: 11211
+      targetPort: memcached
+      protocol: TCP
+      name: memcached
+  selector:
+    app: flux-memcached
+
