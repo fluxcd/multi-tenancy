@@ -1,0 +1,3 @@
+bases:
+  - ./common/
+  - ./team1/
