@@ -16,13 +16,11 @@ First you'll have to create two git repositories:
 * a clone of [fluxcd-multi-tenancy](https://github.com/stefanprodan/fluxcd-multi-tenancy) repository for the cluster admins, I will refer to it as `org/dev-cluster`
 * a clone of [fluxcd-multi-tenancy-team1](https://github.com/stefanprodan/fluxcd-multi-tenancy-team1) repository for the dev team1, I will refer to it as `org/dev-team1`
 
-
 | Team      | Namespace   | Git Repository        | Flux RBAC
 | --------- | ----------- | --------------------- | ---------------
-| ADMIN     | all         | org/dev-cluster       | Cluster wide e.g. namespaces, cluster roles, CRDs, Flux controllers
+| ADMIN     | all         | org/dev-cluster       | Cluster wide e.g. namespaces, CRDs, Flux controllers
 | DEV-TEAM1 | team1       | org/dev-team1         | Namespace scoped e.g. deployments, custom resources
 | DEV-TEAM2 | team2       | org/dev-team2         | Namespace scoped e.g. ingress, services, network policies
-
 
 Cluster admin repository structure:
 
@@ -30,22 +28,11 @@ Cluster admin repository structure:
 ├── .flux.yaml 
 ├── base
 │   ├── flux
-│   │   ├── account.yaml
-│   │   ├── deployment.yaml
-│   │   ├── git-key.yaml
-│   │   ├── kubeconfig.yaml
-│   │   ├── kustomization.yaml
-│   │   └── role.yaml
 │   └── memcached
-│       ├── deployment.yaml
-│       ├── kustomization.yaml
-│       └── service.yaml
 ├── cluster
 │   ├── common
 │   │   ├── crds.yaml
 │   │   └── kustomization.yaml
-│   ├── flux-patch.yaml
-│   ├── kustomization.yaml
 │   └── team1
 │       ├── flux-patch.yaml
 │       ├── kubeconfig.yaml
@@ -53,12 +40,7 @@ Cluster admin repository structure:
 │       ├── namespace.yaml
 │       └── rbac.yaml
 ├── install
-│   ├── flux-patch.yaml
-│   ├── kustomization.yaml
-│   ├── namespace.yaml
-│   └── rbac.yaml
 └── scripts
-    └── create-team.sh
 ```
 
 Development team1 repository structure:
