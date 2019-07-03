@@ -12,14 +12,17 @@ custom resources definitions or change something in another team namespace.
 ### Repositories
 
 First you'll have to create two git repositories:
+
 * a clone of [fluxcd-multi-tenancy](https://github.com/stefanprodan/fluxcd-multi-tenancy) repository for the cluster admins, I will refer to it as `org/dev-cluster`
 * a clone of [fluxcd-multi-tenancy-team1](https://github.com/stefanprodan/fluxcd-multi-tenancy-team1) repository for the dev team1, I will refer to it as `org/dev-team1`
+
 
 | Team      | Namespace   | Git Repository        | Flux RBAC
 | --------- | ----------- | --------------------- | ---------------
 | ADMIN     | all         | org/dev-cluster       | Cluster wide e.g. namespaces, cluster roles, CRDs, Flux controllers
 | DEV-TEAM1 | team1       | org/dev-team1         | Namespace scoped e.g. deployments, custom resources
 | DEV-TEAM2 | team2       | org/dev-team2         | Namespace scoped e.g. ingress, services, network policies
+
 
 Cluster admin repository structure:
 
