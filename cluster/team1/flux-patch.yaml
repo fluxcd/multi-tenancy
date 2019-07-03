@@ -10,8 +10,8 @@ spec:
           args:
             - --manifest-generation=true
             - --memcached-service=
-            - --git-poll-interval=1m
-            - --sync-interval=1m
+            - --git-poll-interval=5m
+            - --sync-interval=5m
             - --ssh-keygen-dir=/var/fluxd/keygen
             - --k8s-allow-namespace=team1
             - --git-url=git@github.com:org/dev-team1
