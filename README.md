@@ -9,6 +9,8 @@ custom resources definitions or change something in another team namespace.
 
 ![Flux multi-tenancy](https://github.com/fluxcd/helm-operator-get-started/blob/master/diagrams/flux-multi-tenancy.png)
 
+### Repositories
+
 | Team      | Namespace   | Git Repository        | Flux RBAC
 | --------- | ----------- | --------------------- | ---------------
 | ADMIN     | all         | org/dev-cluster       | Cluster wide e.g. namespaces, cluster roles, CRDs, controllers
@@ -18,6 +20,56 @@ custom resources definitions or change something in another team namespace.
 First you'll have to create two git repositories:
 * a clone of [fluxcd-multi-tenancy](https://github.com/stefanprodan/fluxcd-multi-tenancy) repository for the cluster admins, I will refer to it as `org/dev-cluster`
 * a clone of [fluxcd-multi-tenancy-team1](https://github.com/stefanprodan/fluxcd-multi-tenancy-team1) repository for the dev team1, I will refer to it as `org/dev-team1`
+
+Cluster admin repository structure:
+
+```
+├── .flux.yaml 
+├── base
+│   ├── flux
+│   │   ├── account.yaml
+│   │   ├── deployment.yaml
+│   │   ├── git-key.yaml
+│   │   ├── kubeconfig.yaml
+│   │   ├── kustomization.yaml
+│   │   └── role.yaml
+│   └── memcached
+│       ├── deployment.yaml
+│       ├── kustomization.yaml
+│       └── service.yaml
+├── cluster
+│   ├── common
+│   │   ├── crds.yaml
+│   │   └── kustomization.yaml
+│   ├── flux-patch.yaml
+│   ├── kustomization.yaml
+│   └── team1
+│       ├── flux-patch.yaml
+│       ├── kubeconfig.yaml
+│       ├── kustomization.yaml
+│       ├── namespace.yaml
+│       └── rbac.yaml
+├── install
+│   ├── flux-patch.yaml
+│   ├── kustomization.yaml
+│   ├── namespace.yaml
+│   └── rbac.yaml
+└── scripts
+    └── create-team.sh
+```
+
+Development team1 repository structure:
+
+```
+├── .flux.yaml 
+├── flux-patch.yaml
+├── kustomization.yaml
+└── workloads
+    ├── podinfo
+    │   ├── deployment.yaml
+    │   ├── kustomization.yaml
+    │   └── service.yaml
+```
 
 ### Install the cluster admin Flux
 
@@ -132,6 +184,10 @@ fluxctl --k8s-fwd-ns=team2 identity
 
 Add the public key to the `github.com:org/dev-team2` repository deploy keys with write access. The team2's Flux
 will apply the manifests from `org/dev-team2` repository only in the `team2` namespace.
+
+### Isolate tenants
+
+While Flux will prevent a team member from altering cluster level objects or 
 
 ### Getting Help
 
