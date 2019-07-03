@@ -7,6 +7,8 @@ the cluster administrator while the namespace scoped operations are performed by
 That means a team member, that's not a cluster admin, can't create namespaces, 
 custom resources definitions or change something in another team namespace.
 
+![Flux multi-tenancy](https://github.com/fluxcd/helm-operator-get-started/blob/master/diagrams/flux-multi-tenancy.png)
+
 
 | Team      | Namespace   | Git Repository        | Flux RBAC
 | --------- | ----------- | --------------------- | ---------------
@@ -105,7 +107,4 @@ fluxctl --k8s-fwd-ns=team2 identity
 
 Add the public key to the `github.com:org/dev-team2` repository deploy keys with write access. The team2's Flux
 will apply the manifests from `org/dev-team2` repository only in the `team2` namespace.
-
-
-
 
