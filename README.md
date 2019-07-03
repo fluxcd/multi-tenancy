@@ -43,6 +43,10 @@ Cluster admin repository structure:
 └── scripts
 ```
 
+The `base` folder holds the deployment spec used for installing Flux in the `flux-system` namespace 
+and in the teams namespaces. All Flux instances share the same Memcached server deployed at 
+install time in `flux-system` namespace. 
+
 Development team1 repository structure:
 
 ```
@@ -59,6 +63,9 @@ Development team1 repository structure:
         ├── kustomization.yaml
         └── service.yaml
 ```
+
+The `workloads` folder contains the desired state of the `team1` namespace and the `flux-patch.yaml` contains the 
+Flux annotations that define how the container images should be updated.
 
 ### Install the cluster admin Flux
 
@@ -136,7 +143,7 @@ spec:
             - --git-branch=master
 ``` 
 
-**Note** that all Flux instances share the same Memcached server deployed at install time in `flux-system` namespace.
+The `k8s-allow-namespace` restricts Flux discovery mechanism to a single namespace.
 
 ### Add a new team/namespace/repository
 
