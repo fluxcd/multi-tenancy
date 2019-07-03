@@ -3,7 +3,7 @@
 This repository serves as a starting point for a multi-tenant cluster managed with Git, Flux and Kustomize.
 
 I'm assuming that a multi-tenant cluster is shared by multiple teams. The cluster wide operations are performed by 
-the cluster administrator while the namespace scoped operations are performed by various teams each with its own Git repository.
+the cluster administrators while the namespace scoped operations are performed by various teams each with its own Git repository.
 That means a team member, that's not a cluster admin, can't create namespaces, 
 custom resources definitions or change something in another team namespace.
 
@@ -16,8 +16,8 @@ custom resources definitions or change something in another team namespace.
 | DEV-TEAM2 | team2       | org/dev-team2         | Namespace scoped e.g. ingress, services, network policies
 
 First you'll have to create two git repositories:
-* a clone of this repository for the cluster admins, I will refer to your clone as `org/dev-cluster`
-* a repository for dev team1 with a config map definition `org/dev-team1`
+* a clone of [fluxcd-multi-tenancy](https://github.com/stefanprodan/fluxcd-multi-tenancy) repository for the cluster admins, I will refer to it as `org/dev-cluster`
+* a clone of [fluxcd-multi-tenancy-team1](https://github.com/stefanprodan/fluxcd-multi-tenancy-team1) repository for the dev team1, I will refer to it as `org/dev-team1`
 
 ### Install the cluster admin Flux
 
