@@ -1,0 +1,6 @@
+resources:
+  - service.yaml
+  - deployment.yaml
+images:
+  - name: memcached
+    newTag: 1.5.15

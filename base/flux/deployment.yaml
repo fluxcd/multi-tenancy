@@ -46,6 +46,7 @@ spec:
             - name: KUBECONFIG
               value: /root/.kubectl/kubeconfig.yaml
           args:
+            - --memcached-hostname=flux-memcached.flux-system
             - --memcached-service=
             - --git-poll-interval=5m
             - --sync-interval=5m

@@ -3,7 +3,6 @@ resources:
   - role.yaml
   - git-key.yaml
   - deployment.yaml
-  - memcached.yaml
 configMapGenerator:
   - name: flux-kube-config
     files:
@@ -11,5 +10,3 @@ configMapGenerator:
 images:
   - name: weaveworks/flux
     newTag: 1.13.1
-  - name: memcached
-    newTag: 1.5.15

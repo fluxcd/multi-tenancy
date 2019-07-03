@@ -4,5 +4,6 @@ resources:
   - rbac.yaml
 bases:
   - ../base/flux/
+  - ../base/memcached/
 patchesStrategicMerge:
   - flux-patch.yaml
