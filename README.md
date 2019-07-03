@@ -183,7 +183,13 @@ will apply the manifests from `org/dev-team2` repository only in the `team2` nam
 
 ### Isolate tenants
 
-While Flux will prevent a team member from altering cluster level objects or 
+With this setup, Flux will prevent a team member from altering cluster level objects or other team's workloads. 
+
+In order to harden the tenant isolation, a cluster admin should consider using:
+* resource quotas (limit the compute resources that can be requested by a team)
+* network policies (restrict cross namespace traffic)
+* pod security policies (prevent running privileged containers or host network and filesystem usage)
+* Open Policy Agent admission controller (enforce custom policies on Kubernetes objects)
 
 ### Getting Help
 
