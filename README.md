@@ -133,3 +133,12 @@ fluxctl --k8s-fwd-ns=team2 identity
 Add the public key to the `github.com:org/dev-team2` repository deploy keys with write access. The team2's Flux
 will apply the manifests from `org/dev-team2` repository only in the `team2` namespace.
 
+### Getting Help
+
+If you have any questions about Flux and GitOps:
+
+
+* Invite yourself to the [Weave community slack](https://slack.weave.works/)
+  and join the [#flux](https://weave-community.slack.com/messages/flux/) channel.
+* Join the [Weave User Group](https://www.meetup.com/pro/Weave/) and get invited to online talks,
+  hands-on training and meetups in your area.
