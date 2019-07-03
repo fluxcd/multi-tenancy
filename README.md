@@ -69,6 +69,10 @@ Development team1 repository structure:
     │   ├── deployment.yaml
     │   ├── kustomization.yaml
     │   └── service.yaml
+    └── podinfov2
+        ├── deployment.yaml
+        ├── kustomization.yaml
+        └── service.yaml
 ```
 
 ### Install the cluster admin Flux
