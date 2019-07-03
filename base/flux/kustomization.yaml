@@ -1,9 +1,13 @@
 resources:
   - account.yaml
   - role.yaml
-  - config.yaml
+  - git-key.yaml
   - deployment.yaml
   - memcached.yaml
+configMapGenerator:
+  - name: flux-kube-config
+    files:
+      - kubeconfig.yaml
 images:
   - name: weaveworks/flux
     newTag: 1.13.1

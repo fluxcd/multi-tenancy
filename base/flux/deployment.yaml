@@ -44,7 +44,7 @@ spec:
               mountPath: /var/fluxd/keygen
           env:
             - name: KUBECONFIG
-              value: /root/.kubectl/config
+              value: /root/.kubectl/kubeconfig.yaml
           args:
             - --memcached-service=
             - --git-poll-interval=5m
