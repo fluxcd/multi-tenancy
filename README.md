@@ -18,20 +18,14 @@ First you'll have to create two git repositories:
 * a clone of this repository for the cluster admins, I will refer to your clone as `org/dev-cluster`
 * a repository for dev team1 with a config map definition `org/dev-team1`
 
+### Install the cluster admin Flux
+
 In the dev-cluster repo, change the git URL to point to your fork:
 
 ```bash
-vim ./system/flux-patch.yaml
+vim ./install/flux-patch.yaml
 
 --git-url=git@github.com:org/dev-cluster
-```
-
-Change the dev team git URL:
-
-```bash
-vim ./cluster/team1/flux-patch.yaml
-
---git-url=git@github.com:org/dev-team1
 ```
 
 Install the cluster wide Flux with kubectl kustomize:
@@ -52,17 +46,31 @@ The cluster wide Flux will do the following:
 * creates the cluster objects from `cluster/common` directory (CRDs, cluster roles, etc)
 * creates the `team1` namespace and deploys a Flux instance with restricted access to that namespace
 
+### Install a Flux per namespace
+
+Change the dev team1 git URL:
+
+```bash
+vim ./cluster/team1/flux-patch.yaml
+
+--git-url=git@github.com:org/dev-team1
+```
+
+When you commit your changes, the system Flux will configure the team1's Flux to sync with `org/dev-team1` repository.
+
 Get the public SSH key for team1 with:
 
 ```bash
 fluxctl --k8s-fwd-ns=team1 identity
 ```
 
-Add the public key to the `github.com:org/dev-team1` repository deploy keys with write access. The team1's Flux
-will apply the manifests from `org/dev-team1` repository only in the `team1` namespace.
+Add the public key to the `github.com:org/dev-team1` deploy keys with write access. The team1's Flux
+will apply the manifests from `org/dev-team1` repository only in the `team1` namespace, this is enforced with RBAC and role bindings.
 
 If team1 needs to deploy a controller that depends on a CRD or a cluster role, they'll 
 have to open a PR in the `org/dev-cluster`repository and add those cluster wide objects in the `cluster/common` directory.
+
+### Add a new team/namespace/repository
 
 If you want to add another team to the cluster, first create a git repository as `github.com:org/dev-team2`.
 
