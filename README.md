@@ -71,6 +71,32 @@ will apply the manifests from `org/dev-team1` repository only in the `team1` nam
 If team1 needs to deploy a controller that depends on a CRD or a cluster role, they'll 
 have to open a PR in the `org/dev-cluster`repository and add those cluster wide objects in the `cluster/common` directory.
 
+The team1's Flux instance can be customised with different options than the system Flux using the `cluster/team1/flux-patch.yaml`. 
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux
+spec:
+  template:
+    spec:
+      containers:
+        - name: flux
+          args:
+            - --manifest-generation=true
+            - --memcached-hostname=flux-memcached.flux-system
+            - --memcached-service=
+            - --git-poll-interval=5m
+            - --sync-interval=5m
+            - --ssh-keygen-dir=/var/fluxd/keygen
+            - --k8s-allow-namespace=team1
+            - --git-url=git@github.com:org/dev-team1
+            - --git-branch=master
+``` 
+
+**Note** that all Flux instances share the same Memcached server deployed at install time in `flux-system` namespace.
+
 ### Add a new team/namespace/repository
 
 If you want to add another team to the cluster, first create a git repository as `github.com:org/dev-team2`.
