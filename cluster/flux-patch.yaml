@@ -2,6 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flux
-  namespace: dev
+  namespace: flux-system
   annotations:
     flux.weave.works/locked: "true"
