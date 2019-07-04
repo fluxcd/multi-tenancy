@@ -47,6 +47,15 @@ The `base` folder holds the deployment spec used for installing Flux in the `flu
 and in the teams namespaces. All Flux instances share the same Memcached server deployed at 
 install time in `flux-system` namespace. 
 
+With `.flux.yaml` we configure Flux to run Kustomize build on the cluster dir and deploy the generated manifests:
+
+```yaml
+version: 1
+commandUpdated:
+  generators:
+    - command: kustomize build .
+```
+
 Development team1 repository structure:
 
 ```
@@ -66,6 +75,16 @@ Development team1 repository structure:
 
 The `workloads` folder contains the desired state of the `team1` namespace and the `flux-patch.yaml` contains the 
 Flux annotations that define how the container images should be updated.
+
+With `.flux.yaml` we configure Flux to run Kustomize build, apply the container update policies and deploy the generated manifests:
+
+```yaml
+version: 1
+patchUpdated:
+  generators:
+    - command: kustomize build .
+  patchFile: flux-patch.yaml
+```
 
 ### Install the cluster admin Flux
 
