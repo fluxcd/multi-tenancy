@@ -164,6 +164,55 @@ spec:
 
 The `k8s-allow-namespace` restricts Flux discovery mechanism to a single namespace.
 
+### Pod Security Policy
+
+With pod security policies a cluster admin can define a set of conditions that a pod must run with in order to be accepted into the system.
+
+For example you can forbid a team from creating privileged containers or use the host network.
+
+Edit the team1 pod security policy `cluster/team1/psp.yaml`:
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: flux-psp-team1
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+spec:
+  privileged: false
+  hostIPC: false
+  hostNetwork: false
+  hostPID: false
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+    - '*'
+  fsGroup:
+    rule: RunAsAny
+  hostPorts:
+    - max: 65535
+      min: 1
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+    - '*'
+```
+
+Set privileged, hostIPC, hostNetwork and hostPID to false and commit the change to git. From this moment on, team1 will 
+not be able to run containers with an elevated security context.
+
+If a team1 member adds a privileged container definition in the `org/dev-team1` repository, Kubernetes will deny it:
+
+```bash
+kubectl -n team1 describe replicasets podinfo-5d7d9fc9d5
+
+Error creating: pods "podinfo-5d7d9fc9d5-" is forbidden: unable to validate against any pod security policy: [spec.containers[0].securityContext.privileged: Invalid value: true: Privileged containers are not allowed]
+```
+
 ### Add a new team/namespace/repository
 
 If you want to add another team to the cluster, first create a git repository as `github.com:org/dev-team2`.
