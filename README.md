@@ -185,14 +185,11 @@ spec:
   hostIPC: false
   hostNetwork: false
   hostPID: false
-  allowPrivilegeEscalation: true
+  allowPrivilegeEscalation: false
   allowedCapabilities:
     - '*'
   fsGroup:
     rule: RunAsAny
-  hostPorts:
-    - max: 65535
-      min: 1
   runAsUser:
     rule: RunAsAny
   seLinux:
