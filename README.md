@@ -38,6 +38,7 @@ Cluster admin repository structure:
 │       ├── kubeconfig.yaml
 │       ├── kustomization.yaml
 │       ├── namespace.yaml
+│       ├── psp.yaml
 │       └── rbac.yaml
 ├── install
 └── scripts
