@@ -39,7 +39,7 @@ rules:
       - default-psp-team1
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: default-psp-team1
 roleRef:
