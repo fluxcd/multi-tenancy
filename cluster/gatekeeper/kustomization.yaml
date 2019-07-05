@@ -1,0 +1,5 @@
+namespace: gatekeeper-system
+resources:
+  - deployment.yaml
+  - templates.yaml
+  - constraints.yaml

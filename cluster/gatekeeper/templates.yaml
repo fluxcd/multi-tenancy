@@ -1,0 +1,60 @@
+apiVersion: templates.gatekeeper.sh/v1alpha1
+kind: ConstraintTemplate
+metadata:
+  name: containerresources
+spec:
+  crd:
+    spec:
+      names:
+        kind: ContainerResources
+        listKind: ContainerResourcesList
+        plural: containerresources
+        singular: containerresources
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package containerresources
+
+        missing(obj, field) = true {
+          not obj[field]
+        }
+
+        missing(obj, field) = true {
+          obj[field] == ""
+        }
+
+        deny[{"msg": msg}] {
+          container := input.review.object.spec.template.spec.containers[_]
+          not container.resources
+          msg := sprintf("container <%v> has no resources", [container.name])
+        }
+
+        deny[{"msg": msg}] {
+          container := input.review.object.spec.template.spec.containers[_]
+          not container.resources.requests
+          msg := sprintf("container <%v> has no resource requests", [container.name])
+        }
+
+        deny[{"msg": msg}] {
+          container := input.review.object.spec.template.spec.containers[_]
+          missing(container.resources.requests, "cpu")
+          msg := sprintf("container <%v> has no cpu requests", [container.name])
+        }
+
+        deny[{"msg": msg}] {
+          container := input.review.object.spec.template.spec.containers[_]
+          missing(container.resources.requests, "memory")
+          msg := sprintf("container <%v> has no memory requests", [container.name])
+        }
+
+        deny[{"msg": msg}] {
+          container := input.review.object.spec.template.spec.containers[_]
+          not container.resources.limits
+          msg := sprintf("container <%v> has no resource limits", [container.name])
+        }
+
+        deny[{"msg": msg}] {
+          container := input.review.object.spec.template.spec.containers[_]
+          missing(container.resources.limits, "memory")
+          msg := sprintf("container <%v> has no memory limits", [container.name])
+        }

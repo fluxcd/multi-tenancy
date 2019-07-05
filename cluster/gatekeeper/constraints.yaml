@@ -1,0 +1,11 @@
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: ContainerResources
+metadata:
+  name: containerresources
+spec:
+  match:
+    namespaces:
+      - team1
+    kinds:
+      - apiGroups: ["apps"]
+        kinds: ["Deployment"]
