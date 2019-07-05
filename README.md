@@ -174,7 +174,7 @@ For example you can forbid a team from creating privileged containers or use the
 Edit the team1 pod security policy `cluster/team1/psp.yaml`:
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: default-psp-team1
