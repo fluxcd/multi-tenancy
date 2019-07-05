@@ -177,7 +177,7 @@ Edit the team1 pod security policy `cluster/team1/psp.yaml`:
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: flux-psp-team1
+  name: default-psp-team1
   annotations:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
 spec:
@@ -204,7 +204,7 @@ spec:
 ```
 
 Set privileged, hostIPC, hostNetwork and hostPID to false and commit the change to git. From this moment on, team1 will 
-not be able to run containers with an elevated security context.
+not be able to run containers with an elevated security context under the default service account.
 
 If a team1 member adds a privileged container definition in the `org/dev-team1` repository, Kubernetes will deny it:
 
