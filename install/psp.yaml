@@ -1,23 +1,20 @@
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: flux.privileged
+  name: flux
   annotations:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
 spec:
-  privileged: true
+  privileged: false
+  hostIPC: false
+  hostNetwork: false
+  hostPID: false
   readOnlyRootFilesystem: false
   allowPrivilegeEscalation: true
   allowedCapabilities:
     - '*'
   fsGroup:
     rule: RunAsAny
-  hostIPC: true
-  hostNetwork: true
-  hostPID: true
-  hostPorts:
-    - max: 65535
-      min: 1
   runAsUser:
     rule: RunAsAny
   seLinux:
@@ -36,7 +33,7 @@ rules:
     resources: ['podsecuritypolicies']
     verbs:     ['use']
     resourceNames:
-      - flux.privileged
+      - flux
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
