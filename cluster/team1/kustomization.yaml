@@ -2,6 +2,7 @@ namespace: team1
 resources:
   - namespace.yaml
   - rbac.yaml
+  - psp.yaml
 bases:
   - ../../base/flux/
 patchesStrategicMerge:
