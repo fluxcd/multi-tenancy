@@ -55,6 +55,8 @@ spec:
             - --git-branch=master
             - --git-path=
           resources:
+            limits:
+              memory: 2Gi
             requests:
               cpu: 100m
               memory: 128Mi

@@ -211,6 +211,54 @@ kubectl -n team1 describe replicasets podinfo-5d7d9fc9d5
 Error creating: pods "podinfo-5d7d9fc9d5-" is forbidden: unable to validate against any pod security policy: [spec.containers[0].securityContext.privileged: Invalid value: true: Privileged containers are not allowed]
 ```
 
+### OPA Gatekeeper
+
+Gatekeeper is a validating webhook that enforces CRD-based policies executed by Open Policy Agent.
+
+You can deploy Gatekeeper by including its manifests in the `cluster/kustomization.yaml` file:
+
+```yaml
+bases:
+  - ./gatekeeper/
+  - ./common/
+  - ./team1/
+```
+
+Inside the gatekeeper dir there is a constraint template that instructs OPA to reject Kubernetes deployments if no 
+container resources are specified.
+
+Enable the constraint for team1 by editing the `cluster/gatekeeper/constraints.yaml` file:
+
+```yaml
+apiVersion: constraints.gatekeeper.sh/v1alpha1
+kind: ContainerResources
+metadata:
+  name: containerresources
+spec:
+  match:
+    namespaces:
+      - team1
+    kinds:
+      - apiGroups: ["apps"]
+        kinds: ["Deployment"]
+```
+
+Commit the changes to git and wait for system Flux to install Gatekeeper and apply the constraints:
+
+```bash
+watch kubectl -n gatekeeper-system get po
+```
+
+If a team1 member adds a deployment without CPU or memory resources in the `org/dev-team1` repository, Gatekeeper will deny it:
+
+```bash
+kubectl -n flux-system logs deploy/flux
+
+admission webhook "validation.gatekeeper.sh" denied the request: 
+[denied by containerresources] container <podinfo> has no memory requests
+[denied by containerresources] container <sidecar> has no memory limits
+```
+
 ### Add a new team/namespace/repository
 
 If you want to add another team to the cluster, first create a git repository as `github.com:org/dev-team2`.
