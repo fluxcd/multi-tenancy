@@ -193,7 +193,7 @@ flagger-prometheus-6f6b558b7c-22kw5   1/1     Running
 
 A team member can now push canary objects to `org/dev-team1` repository and Flagger will automate the deployment process. 
 
-Flagger can notify your teams when when a canary deployment has been initialised, 
+Flagger can notify your teams when a canary deployment has been initialised, 
 when a new revision has been detected and if the canary analysis failed or succeeded.
 
 You can enable Slack notifications by editing the `cluster/flagger/flagger-patch.yaml` file:
@@ -218,7 +218,8 @@ spec:
 
 ### Enforce pod security policies per team
 
-With pod security policies a cluster admin can define a set of conditions that a pod must run with in order to be accepted into the system.
+With [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
+a cluster admin can define a set of conditions that a pod must run with in order to be accepted into the system.
 
 For example you can forbid a team from creating privileged containers or use the host network.
 
@@ -264,7 +265,8 @@ Error creating: pods "podinfo-5d7d9fc9d5-" is forbidden: unable to validate agai
 
 ### Enforce custom policies per team
 
-Gatekeeper is a validating webhook that enforces CRD-based policies executed by Open Policy Agent.
+[Gatekeeper](https://github.com/open-policy-agent/gatekeeper)
+is a validating webhook that enforces CRD-based policies executed by Open Policy Agent.
 
 ![Flux Gatekeeper](https://github.com/fluxcd/helm-operator-get-started/blob/master/diagrams/flux-open-policy-agent-gatekeeper.png)
 
