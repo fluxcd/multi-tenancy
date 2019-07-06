@@ -215,6 +215,8 @@ Error creating: pods "podinfo-5d7d9fc9d5-" is forbidden: unable to validate agai
 
 Gatekeeper is a validating webhook that enforces CRD-based policies executed by Open Policy Agent.
 
+![Flux Gatekeeper](https://github.com/fluxcd/helm-operator-get-started/blob/master/diagrams/flux-open-policy-agent-gatekeeper.png)
+
 You can deploy Gatekeeper by including its manifests in the `cluster/kustomization.yaml` file:
 
 ```yaml
@@ -246,6 +248,8 @@ spec:
 Commit the changes to git and wait for system Flux to install Gatekeeper and apply the constraints:
 
 ```bash
+fluxctl --k8s-fwd-ns=flux-system sync
+
 watch kubectl -n gatekeeper-system get po
 ```
 
