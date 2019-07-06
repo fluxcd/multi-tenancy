@@ -115,7 +115,7 @@ The cluster wide Flux will do the following:
 * creates the cluster objects from `cluster/common` directory (CRDs, cluster roles, etc)
 * creates the `team1` namespace and deploys a Flux instance with restricted access to that namespace
 
-### Install a Flux per namespace
+### Install a Flux per team
 
 Change the dev team1 git URL:
 
@@ -165,7 +165,35 @@ spec:
 
 The `k8s-allow-namespace` restricts Flux discovery mechanism to a single namespace.
 
-### Pod Security Policy
+### Install Flagger
+
+[Flagger](https://docs.flagger.app) is a progressive delivery Kubernetes operator that can be used to automate Canary, A/B testing and Blue/Green deployments.
+
+![Flux Flagger](https://github.com/fluxcd/helm-operator-get-started/blob/master/diagrams/flux-flagger.png)
+
+You can deploy Flagger by including its manifests in the `cluster/kustomization.yaml` file:
+
+```yaml
+bases:
+  - ./flagger/
+  - ./common/
+  - ./team1/
+```
+
+Commit the changes to git and wait for system Flux to install Flagger and Prometheus:
+
+```bash
+fluxctl --k8s-fwd-ns=flux-system sync
+
+kubectl -n flagger-system get po
+NAME                                  READY   STATUS
+flagger-64c6945d5b-4zgvh              1/1     Running
+flagger-prometheus-6f6b558b7c-22kw5   1/1     Running
+```
+
+A team member can now push canary objects to `org/dev-team1` repository and Flagger will automate the deployment process. 
+
+### Enforce pod security policies per team
 
 With pod security policies a cluster admin can define a set of conditions that a pod must run with in order to be accepted into the system.
 
@@ -203,7 +231,7 @@ spec:
 Set privileged, hostIPC, hostNetwork and hostPID to false and commit the change to git. From this moment on, team1 will 
 not be able to run containers with an elevated security context under the default service account.
 
-If a team1 member adds a privileged container definition in the `org/dev-team1` repository, Kubernetes will deny it:
+If a team member adds a privileged container definition in the `org/dev-team1` repository, Kubernetes will deny it:
 
 ```bash
 kubectl -n team1 describe replicasets podinfo-5d7d9fc9d5
@@ -211,7 +239,7 @@ kubectl -n team1 describe replicasets podinfo-5d7d9fc9d5
 Error creating: pods "podinfo-5d7d9fc9d5-" is forbidden: unable to validate against any pod security policy: [spec.containers[0].securityContext.privileged: Invalid value: true: Privileged containers are not allowed]
 ```
 
-### OPA Gatekeeper
+### Enforce custom policies per team
 
 Gatekeeper is a validating webhook that enforces CRD-based policies executed by Open Policy Agent.
 
@@ -222,6 +250,7 @@ You can deploy Gatekeeper by including its manifests in the `cluster/kustomizati
 ```yaml
 bases:
   - ./gatekeeper/
+  - ./flagger/
   - ./common/
   - ./team1/
 ```
@@ -253,7 +282,7 @@ fluxctl --k8s-fwd-ns=flux-system sync
 watch kubectl -n gatekeeper-system get po
 ```
 
-If a team1 member adds a deployment without CPU or memory resources in the `org/dev-team1` repository, Gatekeeper will deny it:
+If a team member adds a deployment without CPU or memory resources in the `org/dev-team1` repository, Gatekeeper will deny it:
 
 ```bash
 kubectl -n flux-system logs deploy/flux

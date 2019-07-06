@@ -1,0 +1,8 @@
+namespace: flagger-system
+resources:
+  - namespace.yaml
+bases:
+  - github.com/weaveworks/flagger/kustomize/base/flagger
+  - github.com/weaveworks/flagger/kustomize/base/prometheus
+patchesStrategicMerge:
+  - patch.yaml
