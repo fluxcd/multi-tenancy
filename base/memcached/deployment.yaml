@@ -16,6 +16,7 @@ spec:
       labels:
         app: flux-memcached
     spec:
+      serviceAccountName: flux
       containers:
         - name: memcached
           image: memcached:1.5.15
