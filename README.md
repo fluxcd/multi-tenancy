@@ -260,7 +260,8 @@ If a team member adds a privileged container definition in the `org/dev-team1` r
 ```bash
 kubectl -n team1 describe replicasets podinfo-5d7d9fc9d5
 
-Error creating: pods "podinfo-5d7d9fc9d5-" is forbidden: unable to validate against any pod security policy: [spec.containers[0].securityContext.privileged: Invalid value: true: Privileged containers are not allowed]
+Error creating: pods "podinfo-5d7d9fc9d5-" is forbidden: unable to validate against any pod security policy:
+[spec.containers[0].securityContext.privileged: Invalid value: true: Privileged containers are not allowed]
 ```
 
 ### Enforce custom policies per team
@@ -310,7 +311,7 @@ watch kubectl -n gatekeeper-system get po
 If a team member adds a deployment without CPU or memory resources in the `org/dev-team1` repository, Gatekeeper will deny it:
 
 ```bash
-kubectl -n flux-system logs deploy/flux
+kubectl -n team1 logs deploy/flux
 
 admission webhook "validation.gatekeeper.sh" denied the request: 
 [denied by containerresources] container <podinfo> has no memory requests
