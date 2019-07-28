@@ -64,11 +64,11 @@ Development team1 repository structure:
 ├── flux-patch.yaml
 ├── kustomization.yaml
 └── workloads
-    ├── podinfo
+    ├── frontend
     │   ├── deployment.yaml
     │   ├── kustomization.yaml
     │   └── service.yaml
-    └── podinfov2
+    └── backend
         ├── deployment.yaml
         ├── kustomization.yaml
         └── service.yaml
