@@ -369,7 +369,10 @@ In order to harden the tenant isolation, a cluster admin should consider using:
 If you have any questions about Flux and GitOps:
 
 
-* Invite yourself to the [Weave community slack](https://slack.weave.works/)
-  and join the [#flux](https://weave-community.slack.com/messages/flux/) channel.
-* Join the [Weave User Group](https://www.meetup.com/pro/Weave/) and get invited to online talks,
+- Invite yourself to the <a href="https://slack.cncf.io" target="_blank">CNCF community</a>
+  slack and ask a question on the [#flux](https://cloud-native.slack.com/messages/flux/)
+  channel.
+- To be part of the conversation about Flux's development, join the
+  [flux-dev mailing list](https://lists.cncf.io/g/cncf-flux-dev).
+- Join the [Weave User Group](https://www.meetup.com/pro/Weave/) and get invited to online talks,
   hands-on training and meetups in your area.
