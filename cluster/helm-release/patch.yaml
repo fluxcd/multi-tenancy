@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux-helm-operator
+spec:
+  template:
+    spec:
+      volumes:
+       - name: repositories-yaml
+         secret:
+           secretName: helm-repositories
+       - name: repositories-cache
+         emptyDir: {}
+      containers:
+        - name: flux-helm-operator
+          volumeMounts:
+             - name: repositories-yaml
+               mountPath: /var/fluxd/helm/repository
+             - name: repositories-cache
+               mountPath: /var/fluxd/helm/repository/cache

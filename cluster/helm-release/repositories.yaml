@@ -1,0 +1,11 @@
+apiVersion: v1
+repositories:
+- name: stable
+  url: https://kubernetes-charts.storage.googleapis.com
+  cache: /var/fluxd/helm/repository/cache/stable-index.yaml
+- name: flagger
+  url: https://flagger.app
+  cache: /var/fluxd/helm/repository/cache/flagger-index.yaml
+- name: podinfo
+  url: https://stefanprodan.github.io/podinfo
+  cache: /var/fluxd/helm/repository/cache/podinfo-index.yaml
