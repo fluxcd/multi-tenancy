@@ -12,3 +12,6 @@
 *.out
 
 ./test
+
+# System files
+.DS_Store
