@@ -13,9 +13,13 @@ mkdir -p ${TEAM_DIR}
 
 cp -r "${REPO_ROOT}/cluster/${TEMPLATE}/." ${TEAM_DIR}
 
-for f in "${TEAM_DIR}*.yaml"
+for f in ${TEAM_DIR}*.yaml
 do
- sed -i '' "s/$TEMPLATE/$TEAM_NAME/g" ${f}
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s/$TEMPLATE/$TEAM_NAME/g" ${f}
+  else
+    sed -i "s/$TEMPLATE/$TEAM_NAME/g" ${f}
+  fi
 done
 
 echo "${TEAM_NAME} created at ${TEAM_DIR}"
