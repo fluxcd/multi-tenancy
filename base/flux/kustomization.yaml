@@ -9,4 +9,4 @@ configMapGenerator:
       - kubeconfig.yaml
 images:
   - name: weaveworks/flux
-    newTag: 1.14.2
+    newTag: 1.15.0
