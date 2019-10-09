@@ -17,3 +17,12 @@ spec:
             - --k8s-allow-namespace=team1
             - --git-url=git@github.com:org/dev-team1
             - --git-branch=master
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: flux
+subjects:
+  - kind: ServiceAccount
+    name: flux
+    namespace: team1

@@ -21,5 +21,5 @@ roleRef:
   name: flux
 subjects:
   - name: flux
-    namespace: "flux-system"
+    namespace: flux-system
     kind: ServiceAccount
