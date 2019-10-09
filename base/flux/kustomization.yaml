@@ -8,5 +8,5 @@ configMapGenerator:
     files:
       - kubeconfig.yaml
 images:
-  - name: weaveworks/flux
+  - name: fluxcd/flux
     newTag: 1.15.0
