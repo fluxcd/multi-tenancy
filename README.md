@@ -1,5 +1,7 @@
 # fluxcd-multi-tenancy
 
+[![test](https://github.com/fluxcd/multi-tenancy/workflows/test/badge.svg)](https://github.com/fluxcd/multi-tenancy/.github/workflows/test.yaml)
+
 This repository serves as a starting point for a multi-tenant cluster managed with Git, Flux and Kustomize.
 
 I'm assuming that a multi-tenant cluster is shared by multiple teams. The cluster wide operations are performed by 
