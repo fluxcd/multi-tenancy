@@ -1,7 +1,5 @@
 package kubernetes
 
-# Variables
-
 name = input.metadata.name
 
 kind = input.kind
@@ -22,8 +20,8 @@ split_image(image) = [image, "latest"] {
 	not contains(image, ":")
 }
 
-split_image(image) = [name, tag] {
-	[name, tag] = split(image, ":")
+split_image(image) = [image_name, tag] {
+	[image_name, tag] = split(image, ":")
 }
 
 pod_containers(pod) = all_containers {
