@@ -1,0 +1,30 @@
+on: [push, pull_request]
+name: test
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Validate kustomization
+        uses: stefanprodan/kube-tools@v1
+        with:
+          # https://github.com/fluxcd/flux/blob/master/docker/kubectl.version
+          kubectl: 1.14.7
+          # https://github.com/fluxcd/flux/blob/master/docker/kustomize.version
+          kustomize: 3.4.0
+          # https://github.com/fluxcd/helm-operator/blob/master/docker/helm.version
+          helm: 2.14.3
+          command: |
+            echo "Validating install"
+            kustomize build install | kubeval --strict --ignore-missing-schemas
+            echo "Validating cluster"
+            kustomize build cluster | kubeval --strict --ignore-missing-schemas
+            echo "Validating cluster/flagger"
+            kustomize build cluster/flagger | kubeval --strict --ignore-missing-schemas
+            echo "Validating cluster/gatekeeper"
+            kustomize build cluster/gatekeeper | kubeval --strict --ignore-missing-schemas
+      - name: Deny latest container image tags
+        uses: stefanprodan/kube-tools@v1
+        with:
+          command: |
+            kustomize build cluster | conftest test -p .github/policy -

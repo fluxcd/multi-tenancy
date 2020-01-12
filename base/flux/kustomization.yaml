@@ -8,5 +8,5 @@ configMapGenerator:
     files:
       - kubeconfig.yaml
 images:
-  - name: docker.io/fluxcd/flux
+  - name: fluxcd/flux
     newTag: 1.17.0
