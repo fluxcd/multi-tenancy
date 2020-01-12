@@ -17,6 +17,8 @@ spec:
         app: flux-memcached
     spec:
       serviceAccountName: flux
+      nodeSelector:
+        beta.kubernetes.io/os: linux      
       containers:
         - name: memcached
           image: memcached:1.5.15

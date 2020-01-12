@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       annotations:
-        prometheus.io.scrape: "true"
+        prometheus.io/port: "3031"
       labels:
         app: flux
     spec:
@@ -28,12 +28,24 @@ spec:
             medium: Memory
       containers:
         - name: flux
-          image: "weaveworks/flux:1.13.1"
+          image: "docker.io/fluxcd/flux:1.17.0"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 3030
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              port: 3030
+              path: /api/flux/v6/identity.pub
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 3030
+              path: /api/flux/v6/identity.pub
+            initialDelaySeconds: 5
+            timeoutSeconds: 5              
           volumeMounts:
             - name: kubedir
               mountPath: /root/.kubectl
@@ -51,12 +63,10 @@ spec:
             - --git-poll-interval=5m
             - --sync-interval=5m
             - --ssh-keygen-dir=/var/fluxd/keygen
-            - --git-url=git@github.com:weaveworks/flux-get-started
+            - --git-url=git@github.com:fluxcd/flux-get-started
             - --git-branch=master
             - --git-path=
           resources:
-            limits:
-              memory: 2Gi
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 50m
+              memory: 64Mi
