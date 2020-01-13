@@ -10,6 +10,7 @@ spec:
   template:
     metadata:
       annotations:
+        prometheus.io.scrape: "true"
         prometheus.io/port: "3031"
       labels:
         app: flux
@@ -58,6 +59,7 @@ spec:
             - name: KUBECONFIG
               value: /root/.kubectl/kubeconfig.yaml
           args:
+            - --listen-metrics=:3031
             - --memcached-hostname=flux-memcached.flux-system
             - --memcached-service=
             - --git-poll-interval=5m
