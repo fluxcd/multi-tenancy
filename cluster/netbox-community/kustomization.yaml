@@ -1,4 +1,4 @@
-namespace: team1
+namespace: netbox-community
 resources:
   - namespace.yaml
   - rbac.yaml

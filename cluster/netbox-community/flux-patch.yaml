@@ -14,8 +14,8 @@ spec:
             - --git-poll-interval=5m
             - --sync-interval=5m
             - --ssh-keygen-dir=/var/fluxd/keygen
-            - --k8s-allow-namespace=team1
-            - --git-url=git@github.com:org/dev-team1
+            - --k8s-allow-namespace=netbox-community
+            - --git-url=git@github.com:CENGN/netbox-community-kubernetes.git
             - --git-branch=master
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -25,4 +25,4 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: flux
-    namespace: team1
+    namespace: netbox-community
