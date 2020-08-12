@@ -33,8 +33,8 @@ deny[msg] {
 
 # Warn if deployments have no prometheus pod annotations
 annotations {
-  input.spec.selector.template.metadata.annotations["prometheus.io/scrape"]
-  input.spec.selector.template.metadata.annotations["prometheus.io/port"]
+  input.spec.template.metadata.annotations["prometheus.io/scrape"]
+  input.spec.template.metadata.annotations["prometheus.io/port"]
 }
 warn[msg] {
   kubernetes.is_deployment
