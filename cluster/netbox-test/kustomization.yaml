@@ -1,4 +1,4 @@
-namespace: netbox-community
+namespace: netbox-flux
 resources:
   - namespace.yaml
   - rbac.yaml
