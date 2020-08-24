@@ -14,7 +14,7 @@ spec:
             - --git-poll-interval=5m
             - --sync-interval=5m
             - --ssh-keygen-dir=/var/fluxd/keygen
-            - --k8s-allow-namespace=netbox-test
+            - --k8s-allow-namespace=netbox-flux
             - --git-url=git@bitbucket.cengn.ca:7999/flux/netbox-flux.git
             - --git-branch=master
 ---
@@ -25,4 +25,4 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: flux
-    namespace: netbox-community
+    namespace: netbox-flux
