@@ -1,3 +1,4 @@
 bases:
   - ./common/
+  - ./netbox-test/
 #  - ./netbox-community/

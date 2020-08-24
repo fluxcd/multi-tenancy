@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux
+spec:
+  template:
+    spec:
+      containers:
+        - name: flux
+          args:
+            - --manifest-generation=true
+            - --memcached-hostname=flux-memcached.flux-system
+            - --memcached-service=
+            - --git-poll-interval=5m
+            - --sync-interval=5m
+            - --ssh-keygen-dir=/var/fluxd/keygen
+            - --k8s-allow-namespace=netbox-test
+            - --git-url=git@bitbucket.cengn.ca:7999/flux/netbox-flux.git
+            - --git-branch=master
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: flux
+subjects:
+  - kind: ServiceAccount
+    name: flux
+    namespace: netbox-community

@@ -1,0 +1,14 @@
+namespace: netbox-community
+resources:
+  - namespace.yaml
+  - rbac.yaml
+  - psp.yaml
+bases:
+  - ../../base/flux/
+patchesStrategicMerge:
+  - flux-patch.yaml
+configMapGenerator:
+  - name: flux-kube-config
+    behavior: replace
+    files:
+      - kubeconfig.yaml

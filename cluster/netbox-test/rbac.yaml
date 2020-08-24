@@ -1,0 +1,25 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: flux-netbox-community
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flux-readonly
+subjects:
+  - kind: ServiceAccount
+    name: flux
+    namespace: netbox-community
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: flux-psp-netbox-community
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flux-psp
+subjects:
+  - kind: ServiceAccount
+    name: flux
+    namespace: netbox-community
