@@ -3,6 +3,7 @@ resources:
   - namespace.yaml
   - rbac.yaml
   - psp.yaml
+  - ssh-config.yaml
 bases:
   - ../../base/flux/
 patchesStrategicMerge:

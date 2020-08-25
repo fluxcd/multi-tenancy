@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flux-ssh-config
+  namespace: netbox-flux
+data:
+  known_hosts: |
+    # CENGN Bitbucket
+    [bitbucket.cengn.ca]:7999,[135.84.106.45]:7999 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCwlhUEDFXQSXn/bqmBpuG2sHRv4BOFq78/hJERiiWOv49EuN5LR/EUQ5OWcJaLjJVPT/kOJQN3ff9PPdqMvlrwfo3+6jMJm3/W/7PZWvZfnTRaO23TkGCixhky+AySL0Ng+3rwZHpgHgAK6ptn/Lbsr4MBzW1XqkzV3Wb6CRS6VU3gX9tCvZlRt4exo8ouUiaFO5mTCzbD0C9bd/1UvTn0ZAfyBh2JB9sJEX+v3OGkjo5sW6pF4ZIwuAFV0O1pQ0Jxc72/JYw9jkI/+6btEPhEI1pbeecOiAgLm8mnCq3e693VC0UjA1iJi3L7fEUdtpPMmG5TZgS8mIRglzOYFQkz
+    # CENGN Bitbucket
+    [10.158.0.1]:7999 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCwlhUEDFXQSXn/bqmBpuG2sHRv4BOFq78/hJERiiWOv49EuN5LR/EUQ5OWcJaLjJVPT/kOJQN3ff9PPdqMvlrwfo3+6jMJm3/W/7PZWvZfnTRaO23TkGCixhky+AySL0Ng+3rwZHpgHgAK6ptn/Lbsr4MBzW1XqkzV3Wb6CRS6VU3gX9tCvZlRt4exo8ouUiaFO5mTCzbD0C9bd/1UvTn0ZAfyBh2JB9sJEX+v3OGkjo5sW6pF4ZIwuAFV0O1pQ0Jxc72/JYw9jkI/+6btEPhEI1pbeecOiAgLm8mnCq3e693VC0UjA1iJi3L7fEUdtpPMmG5TZgS8mIRglzOYFQkz

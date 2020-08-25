@@ -17,6 +17,13 @@ spec:
             - --k8s-allow-namespace=netbox-flux
             - --git-url=ssh://git@bitbucket.cengn.ca:7999/flux/netbox-flux.git
             - --git-branch=master
+          volumeMounts:
+          - name: ssh-config
+            mountPath: /root/.ssh
+          volumes:
+          - name: ssh-config
+            configMap:
+              name: flux-ssh-config
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
