@@ -1,4 +1,5 @@
 bases:
   - ./common/
   - ./netbox-test/
+  - ./helm-operator/
 #  - ./netbox-community/
