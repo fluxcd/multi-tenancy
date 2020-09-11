@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helm-operator
-  namespace: flux
+  namespace: flux-system
 spec:
   replicas: 1
   selector:
