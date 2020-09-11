@@ -137,7 +137,7 @@ spec:
         #   readOnly: true
         args:
           # In what namespace Tiller can be found.
-        - --tiller-namespace=kube-system
+        # - --tiller-namespace=kube-system
         #
         # Comment out to to establish validated TLS connections against Tiller.
         #
@@ -157,4 +157,4 @@ spec:
         # Comment out to enable a single Helm version that can be targeted
         # by a `HelmRelease`; defaults to `--enabled-helm-versions=v2,v3`.
         #
-        # - --enabled-helm-versions=v3
+        - --enabled-helm-versions=v3
