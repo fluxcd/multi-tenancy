@@ -4,6 +4,8 @@ resources:
   - rbac.yaml
   - psp.yaml
   - ssh-config.yaml
+  - redis-helm.yaml
+  - postgresql-helm.yaml
 bases:
   - ../../base/flux/
 patchesStrategicMerge:

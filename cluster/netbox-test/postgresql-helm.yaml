@@ -1,0 +1,12 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: postgresql
+  namespace: netbox-flux
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  chart:
+    git: ssh://git@bitbucket.cengn.ca:7999/flux/netbox-flux.git
+    path: charts-postgresql
+    ref: master
