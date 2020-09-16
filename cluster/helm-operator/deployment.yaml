@@ -21,6 +21,8 @@ spec:
         prometheus.io/scrape: "true"
     spec:
       serviceAccountName: helm-operator
+      nodeSelector:
+        workerClass: infra
       volumes:
       #
       # You will need these two volumes if you want to establish validated TLS
