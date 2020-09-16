@@ -7,6 +7,189 @@ metadata:
     fluxcd.io/automated: "true"
 spec:
   chart:
-    git: ssh://git@bitbucket.cengn.ca:7999/flux/netbox-flux.git
-    path: charts-redis
-    ref: master
+    repository: https://charts.bitnami.com/bitnami
+    name: redis
+    version: 9.5.2 #chart version refers to appVersion: 5.0.5
+  values:
+    image:
+      registry: docker.io
+      repository: bitnami/redis
+      tag: 5.0.5-debian-9-r124
+      pullPolicy: IfNotPresent
+    cluster:
+      enabled: true
+      slaveCount: 3
+    sentinel:
+      enabled: false
+      image:
+        registry: docker.io
+        repository: bitnami/redis-sentinel
+        tag: 5.0.5-debian-9-r119
+        pullPolicy: IfNotPresent
+      masterSet: mymaster
+      initialCheckTimeout: 5
+      quorum: 2
+      downAfterMilliseconds: 60000
+      failoverTimeout: 18000
+      parallelSyncs: 1
+      port: 26379
+      configmap:
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 5
+        successThreshold: 1
+        failureThreshold: 5
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 5
+      service:
+        type: ClusterIP
+        sentinelPort: 26379
+        redisPort: 6379
+        annotations: {}
+        loadBalancerIP:
+    clusterDomain: k8s.chq.cengn.ca
+    networkPolicy:
+      enabled: false
+    serviceAccount:
+      create: false
+      name:
+    rbac:
+      create: false
+      role:
+        rules: []
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    usePassword: true
+    password:
+    usePasswordFile: false
+    persistence: {}
+    redisPort: 6379
+    master:
+      command: "/run.sh"
+      configmap:
+      extraFlags: []
+      disableCommands:
+      - FLUSHDB
+      - FLUSHALL
+      podLabels: {}
+      podAnnotations: {}
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 5
+        successThreshold: 1
+        failureThreshold: 5
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 5
+      nodeSelector: {"workerClass": "infra"}
+      affinity: {}
+      service:
+        type: ClusterIP
+        port: 6379
+        annotations: {}
+        loadBalancerIP:
+      persistence:
+        enabled: true
+        path: /data
+        subPath: ""
+        storageClass: rook-ceph-block-ssd
+        accessModes:
+        - ReadWriteOnce
+        size: 8Gi
+      statefulset:
+        updateStrategy: RollingUpdate
+    slave:
+      service:
+        type: ClusterIP
+        port: 6379
+        annotations: {}
+        loadBalancerIP:
+      port: 6379
+      command: "/run.sh"
+      configmap:
+      extraFlags: []
+      disableCommands:
+      - FLUSHDB
+      - FLUSHALL
+      affinity: {}
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        timeoutSeconds: 5
+        successThreshold: 1
+        failureThreshold: 5
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        timeoutSeconds: 10
+        successThreshold: 1
+        failureThreshold: 5
+      nodeSelector: {"workerClass": "infra"}
+      podLabels: {}
+      podAnnotations: {}
+      persistence:
+        enabled: true
+        path: /data
+        subPath: ""
+        storageClass: rook-ceph-block-ssd
+        accessModes:
+        - ReadWriteOnce
+        size: 8Gi
+      statefulset:
+        updateStrategy: RollingUpdate
+    metrics:
+      enabled: true
+      image:
+        registry: docker.io
+        repository: bitnami/redis-exporter
+        tag: 1.1.0-debian-9-r16
+        pullPolicy: IfNotPresent
+      service:
+        type: ClusterIP
+        annotations: {}
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9121"
+      serviceMonitor:
+        enabled: false
+        selector:
+          prometheus: kube-prometheus
+    volumePermissions:
+      enabled: false
+      image:
+        registry: docker.io
+        repository: bitnami/minideb
+        tag: stretch
+        pullPolicy: Always
+      resources: {}
+    configmap: |-
+      # Enable AOF https://redis.io/topics/persistence#append-only-file
+      appendonly yes
+      # Disable RDB persistence, AOF persistence already enabled.
+      save ""
+    sysctlImage:
+      enabled: false
+      command: []
+      registry: docker.io
+      repository: bitnami/minideb
+      tag: stretch
+      pullPolicy: Always
+      mountHostSys: false
+      resources: {}

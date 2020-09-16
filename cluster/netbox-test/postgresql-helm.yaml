@@ -7,6 +7,157 @@ metadata:
     fluxcd.io/automated: "true"
 spec:
   chart:
-    git: ssh://git@bitbucket.cengn.ca:7999/flux/netbox-flux.git
-    path: charts-postgresql
-    ref: master
+    repository: https://charts.bitnami.com/bitnami
+    name: postgresql
+    version: 8.3.4 #chart version refers to appVersion 11.6.0
+  values:
+    global:
+      postgresql: {}
+    image:
+      registry: docker.io
+      repository: bitnami/postgresql
+      tag: 11.6.0-debian-10-r5
+      pullPolicy: IfNotPresent
+      debug: false
+    volumePermissions:
+      enabled: true
+      image:
+        registry: docker.io
+        repository: bitnami/minideb
+        tag: buster
+        pullPolicy: Always
+      securityContext:
+        runAsUser: 0
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    serviceAccount:
+      enabled: false
+    replication:
+      enabled: false
+      user: repl_user
+      password: repl_password
+      slaveReplicas: 1
+      synchronousCommit: "off"
+      numSynchronousReplicas: 0
+      applicationName: my_application
+    postgresqlUsername: netbox
+    postgresqlDatabase: netbox
+    postgresqlDataDir: /bitnami/postgresql/data
+    ldap:
+      enabled: false
+      url: ""
+      server: ""
+      port: ""
+      prefix: ""
+      suffix: ""
+      baseDN: ""
+      bindDN: ""
+      bind_password:
+      search_attr: ""
+      search_filter: ""
+      scheme: ""
+      tls: false
+    service:
+      type: ClusterIP
+      port: 5432
+      annotations: {}
+    shmVolume:
+      enabled: true
+      chmod:
+        enabled: true
+    persistence:
+      enabled: true
+      mountPath: /bitnami/postgresql
+      subPath: ""
+      storageClass: "rook-ceph-block-ssd"
+      accessModes:
+        - ReadWriteOnce
+      size: 10Gi
+      annotations: {}
+    updateStrategy:
+      type: RollingUpdate
+    master:
+      nodeSelector: {"workerClass": "infra"}
+      affinity: {}
+      tolerations: []
+      labels: {}
+      annotations: {}
+      podLabels: {}
+      podAnnotations: {}
+      priorityClassName: ""
+      extraInitContainers: |
+      extraVolumeMounts: []
+      extraVolumes: []
+    slave:
+      nodeSelector: {"workerClass": "infra"}
+      affinity: {}
+      tolerations: []
+      labels: {}
+      annotations: {}
+      podLabels: {}
+      podAnnotations: {}
+      priorityClassName: ""
+      extraInitContainers: |
+      extraVolumeMounts: []
+      extraVolumes: []
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+    networkPolicy:
+      enabled: false
+      allowExternal: true
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+    metrics:
+      enabled: false
+      service:
+        type: ClusterIP
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "9187"
+        loadBalancerIP:
+      serviceMonitor:
+        enabled: false
+        additionalLabels: {}
+      prometheusRule:
+        enabled: false
+        additionalLabels: {}
+        namespace: ""
+        rules: []
+      image:
+        registry: docker.io
+        repository: bitnami/postgres-exporter
+        tag: 0.8.0-debian-10-r4
+        pullPolicy: IfNotPresent
+      securityContext:
+        enabled: false
+        runAsUser: 1001
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 6
+        successThreshold: 1
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 6
+        successThreshold: 1
