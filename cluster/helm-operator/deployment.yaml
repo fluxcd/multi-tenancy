@@ -9,12 +9,14 @@ spec:
   selector:
     matchLabels:
       name: helm-operator
+      app: flux-helm
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         name: helm-operator
+        app: flux-helm
       annotations:
         prometheus.io/scrape: "true"
     spec:
